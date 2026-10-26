@@ -13,12 +13,23 @@ class Solution:
         # Forward: z = dot(x, w) + b, y_hat = sigmoid(z)
         # Loss: L = 0.5 * (y_hat - y_true)^2
         # Return: (dL_dw rounded to 5 decimals, dL_db rounded to 5 decimals)
-        z=np.dot(x,w)+b
-        y_hat=1/(1+np.exp(-z))
-        dl_dy=y_hat-y_true
-        dy_dz=y_hat*(1-y_hat)
-        dl_dz=dl_dy*dy_dz
-        dl_dw = dl_dz * x
-        dl_db = dl_dz
-        return np.round(dl_dw, 5), round(float(dl_db), 5)
+        # Forward pass
+        z = np.dot(x, w) + b
+        y_hat = 1 / (1 + np.exp(-z))
+
+        # Derivative of loss with respect to prediction
+        dL_dy = y_hat - y_true
+
+        # Derivative of sigmoid with respect to z
+        dy_dz = y_hat * (1 - y_hat)
+
+        # Chain rule: derivative of loss with respect to z
+        dL_dz = dL_dy * dy_dz
+
+        # Gradients for weights and bias
+        dL_dw = dL_dz * x
+        dL_db = dL_dz
+
+        return np.round(dL_dw, 5), round(float(dL_db), 5)
+
 
